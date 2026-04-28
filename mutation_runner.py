@@ -42,7 +42,7 @@ class MutantMediumIncomeNeedsNoCosigner(LoanEvaluator):
 
         return "rejected"
 
-
+    
 class MutantCreditThreshold(LoanEvaluator):
     def evaluate_application(
         self,

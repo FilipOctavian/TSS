@@ -1,116 +1,200 @@
-# Raport testare unitara
+# Documentatie proiect TSS - testare unitara in Python
 
-## 1. Clasa testata
+## 1. Introducere
 
-Exemplul folosit este clasa `LoanEvaluator` din `main.py`. Ea contine trei functionalitati:
+Acest proiect demonstreaza testarea unitara pentru clasa `LoanEvaluator`, implementata in `main.py`, folosind framework-ul `unittest` din Python [1].  
+Obiectivul este aplicarea strategiilor de proiectare a testelor cerute la curs:
 
-- `validate_loan_amount(amount)` valideaza suma si o clasifica in `small`, `medium`, `large`.
-- `calculate_interest_rate(amount, months, has_salary_account)` calculeaza dobanda in functie de suma, perioada si existenta unui cont de salariu.
-- `evaluate_application(credit_score, monthly_income, existing_debt, has_cosigner)` decide daca o cerere este `approved`, `manual_review` sau `rejected`.
+- partitionare in clase de echivalenta
+- analiza valorilor de frontiera
+- acoperire la nivel de instructiune, decizie si conditie
+- circuite independente (basis path)
+- analiza rezultatelor unui generator de mutanti
+- adaugarea de teste pentru omorarea a 2 mutanti neechivalenti ramasi in viata
 
-Framework-ul ales este `unittest`, din biblioteca standard Python.
+## 2. Descrierea aplicatiei testate
 
-## 2. Strategii de generare a testelor
+Clasa `LoanEvaluator` contine trei functionalitati:
 
-### Partiționare in clase de echivalenta
+1. `validate_loan_amount(amount)`:
+- valideaza intervalul `[1000, 50000]`
+- clasifica suma in `small`, `medium`, `large`
 
-Pentru `validate_loan_amount` au fost folosite urmatoarele clase:
+2. `calculate_interest_rate(amount, months, has_salary_account)`:
+- foloseste reguli pentru suma, perioada si cont de salariu
+- returneaza dobanda finala rotunjita
 
-- suma invalida sub minim: exemplu `500`
-- suma valida mica: exemplu `3000`
-- suma valida medie: exemplu `12000`
-- suma valida mare: exemplu `35000`
-- suma invalida peste maxim: exemplu `70000`
+3. `evaluate_application(credit_score, monthly_income, existing_debt, has_cosigner)`:
+- decide `approved`, `manual_review` sau `rejected`
+- foloseste conditii combinate pe scor, venit, grad de indatorare si codebitor
 
-Testele sunt in `tests/test_loan_evaluator_core.py`.
+## 3. Strategii de testare aplicate
 
-### Analiza valorilor de frontiera
+### 3.1 Partitionare in clase de echivalenta
 
-Frontierele alese pentru suma imprumutului:
+Exemple de clase pentru `validate_loan_amount`:
 
-- `999`, `1000`, `1001`
-- `49999`, `50000`, `50001`
+- invalida sub minim: `500`
+- valida mica: `3000`
+- valida medie: `12000`
+- valida mare: `35000`
+- invalida peste maxim: `70000`
 
-Aceste cazuri verifica exact tranzitia intre intrari invalide si valide.
+Implementare: `tests/test_loan_evaluator_core.py`.
 
-### Acoperire la nivel de instructiune
+### 3.2 Analiza valorilor de frontiera
 
-Testul `test_statement_coverage_for_interest_rate` executa toate instructiunile relevante din:
+Frontiere testate:
 
-- validarea sumei
-- reducerea pentru suma mare
-- reducerea pentru perioada scurta
-- reducerea pentru cont de salariu
+- minim: `999`, `1000`, `1001`
+- maxim: `49999`, `50000`, `50001`
+- frontiera interna de clasificare: `5000` (test suplimentar)
 
-### Acoperire la nivel de decizie
+Implementare:
 
-Testul `test_decision_coverage_reaches_long_term_branch` forteaza ramura `months >= 36`, care este diferita de ramura `months <= 12`.
+- `tests/test_loan_evaluator_core.py`
+- `tests/test_loan_evaluator_additional.py`
 
-### Acoperire la nivel de conditie
+### 3.3 Acoperire la nivel de instructiune
 
-Testele pentru `evaluate_application` exercita combinatii in care:
+Testul `test_statement_coverage_for_interest_rate` executa instructiunile principale ale calculului de dobanda, inclusiv reduceri cumulative.
 
-- `credit_score >= 700` este adevarat
-- `has_cosigner` este adevarat
-- `monthly_income >= 5000` este adevarat sau fals
-- `debt_ratio <= 0.4` si `debt_ratio <= 0.5` sunt adevarate sau false
+### 3.4 Acoperire la nivel de decizie
 
-### Circuite independente
+Ramurile decizionale pentru perioada sunt traversate prin:
 
-Pentru `evaluate_application` au fost alese 5 trasee independente:
+- `months <= 12`
+- `months >= 36`
 
-1. scor de credit sub 550 -> `rejected`
-2. venit mare + datorie acceptabila + scor mare -> `approved`
-3. venit mare + datorie acceptabila + scor sub 700 fara codebitor -> `manual_review`
-4. venit mediu + codebitor + datorie acceptabila -> `manual_review`
-5. alt caz ramas -> `rejected`
+### 3.5 Acoperire la nivel de conditie
 
-Acestea sunt ilustrate de testele `test_basis_path_*`.
+Sunt exercitate combinatii relevante pentru expresiile booleene:
 
-## 3. Mutații si analiza raportului
+- `credit_score < 550` (adevarat/fals)
+- `credit_score >= 700 or has_cosigner`
+- `monthly_income >= 5000`
+- `debt_ratio <= 0.4` si `debt_ratio <= 0.5`
 
-Scriptul `mutation_runner.py` joaca rolul unui generator simplu de mutanti si evalueaza doua suite:
+### 3.6 Circuite independente (basis path)
 
-- suita de baza: aceleasi idei ca in `tests/test_loan_evaluator_core.py`
-- suita extinsa: suita de baza + testele suplimentare din `tests/test_loan_evaluator_additional.py`
+Pentru `evaluate_application` au fost alese trasee independente:
 
-Mutantii definiti:
+1. respingere imediata (`credit_score < 550`)
+2. aprobare (`venit mare`, `debt_ratio <= 0.4`, scor mare)
+3. review manual (`venit mare`, fara codebitor, scor < 700)
+4. review manual (`venit mediu`, cu codebitor)
+5. respingere pe cazuri reziduale
 
-- `M1`: schimba `amount <= 5000` in `amount < 5000`
-- `M2`: elimina conditia `has_cosigner` din regula pentru venit mediu
-- `M3`: schimba pragul de respingere din `credit_score < 550` in `credit_score <= 550`
 
-### Interpretare asteptata a raportului
+## 4. Configuratia de rulare
 
-Cu suita de baza:
+### 4.1 Configuratia hardware
 
-- `M3` este omorat
-- `M1` si `M2` supravietuiesc
+Date extrase din mediul de lucru curent:
 
-Motiv:
+- CPU: `AMD Ryzen 9 7900 12-Core Processor` (12 nuclee / 24 thread-uri)
+- RAM: `31.74 GB`
+- Sistem: `LENOVO 90UY00ADRI`
 
-- suita de baza nu testeaza exact valoarea `5000`
-- suita de baza nu testeaza cazul de venit mediu fara codebitor
+### 4.2 Configuratia software
 
-### Teste suplimentare pentru a omori 2 mutanti neechivalenti ramasi in viata
+- OS: `Microsoft Windows 11 Pro`, versiune `10.0.26200`, arhitectura `64-bit`
+- Python: `3.13.5`
+- pip: `25.1.1`
+- Git: `2.50.1.windows.1`
+- Framework testare: `unittest` (stdlib Python)
 
-In `tests/test_loan_evaluator_additional.py` au fost adaugate doua teste:
+### 4.3 Masina virtuala
 
-- `test_amount_boundary_exactly_5000_is_still_small` omoara mutantul `M1`
-- `test_application_is_rejected_without_cosigner_on_medium_income` omoara mutantul `M2`
+- nu a fost folosita masina virtuala
+- rularea s-a facut local, in mediul host
 
-Astfel, dupa extinderea suitei, toti cei 3 mutanti sunt omorati.
+## 5. Fragmente de cod relevante
 
-## 4. Rulare
+### 5.1 Fragment cod productie (`main.py`)
 
-Pentru teste:
+```python
+if monthly_income >= 5_000 and debt_ratio <= 0.4:
+    if credit_score >= 700 or has_cosigner:
+        return "approved"
+    return "manual_review"
+```
+
+### 5.2 Fragment cod teste suplimentare (`tests/test_loan_evaluator_additional.py`)
+
+```python
+def test_amount_boundary_exactly_5000_is_still_small(self) -> None:
+    self.assertEqual("small", self.evaluator.validate_loan_amount(5_000))
+```
+
+```python
+def test_application_is_rejected_without_cosigner_on_medium_income(self) -> None:
+    result = self.evaluator.evaluate_application(
+        credit_score=620,
+        monthly_income=3_500,
+        existing_debt=1_000,
+        has_cosigner=False,
+    )
+    self.assertEqual("rejected", result)
+```
+
+## 6. Rulare si capturi de ecran
+
+### 6.1 Comenzi folosite
 
 ```powershell
 .\myvenv\Scripts\python.exe -m unittest discover -s tests -v
-```
-
-Pentru raportul de mutatii:
-
-```powershell
 .\myvenv\Scripts\python.exe mutation_runner.py
 ```
+
+### 6.2 Rezultate obtinute
+
+- Teste unitare: `17` teste, toate `OK`
+- Mutatii:
+- `core suite`: `Killed = 1`, `Survived = 2`
+- `core + additional tests`: `Killed = 3`, `Survived = 0`
+
+
+## 7. Comparatie rezultate/tool-uri (tabelar)
+
+| Criteriu | unittest | mutation_runner.py |
+|---|---|---|
+| Scop principal | Validare functionala fata de expected outputs | Evaluare putere teste prin mutanti |
+| Tip rezultat | PASS/FAIL pe teste | KILLED/SURVIVED pe mutanti |
+| Granularitate | per test | per mutant |
+| Valoare in proiect | confirma corectitudinea implementarii | confirma sensibilitatea suitei la defecte |
+| Rezultat in acest proiect | 17/17 teste trecute | de la 1/3 mutanti omorati la 3/3 |
+
+## 8. Interpretare rezultate
+
+1. Suita de baza detecteaza defectele majore, dar nu toate diferentele subtile de frontiera.
+2. Mutantii `M1` si `M2` au supravietuit initial, indicand goluri de testare:
+- frontiera exacta `5000`
+- regula de codebitor pe venit mediu
+3. Doua teste suplimentare au inchis exact aceste goluri.
+4. Dupa extindere, toti mutantii definiti au fost omorati (`100% kill rate` in setul de mutanti modelat).
+
+## 9. Limitari si imbunatatiri
+
+- generatorul de mutanti este unul didactic, nu un tool industrial complet
+- nu este inclusa acoperire instrumentata automat (ex. `coverage.py`)
+
+Imbunatatiri posibile:
+
+1. integrare `coverage.py` pentru metrici line/branch
+2. integrare tool dedicat de mutation testing (de ex. `mutmut`) daca mediul permite instalarea
+3. automatizare in CI (GitHub Actions)
+
+## 11. Referinte bibliografice
+
+[1] Python Software Foundation, "unittest - Unit testing framework", Python 3 documentation.  
+[2] Python Software Foundation, "Python 3.13 Documentation", docs.python.org.  
+[3] A. J. Offutt, "Introduction to Software Testing", Cambridge University Press.  
+[4] ISTQB, "Foundation Level Syllabus - Test Design Techniques".  
+[5] diagrams.net, "diagrams.net", https://app.diagrams.net/
+
+## 12. Citare in text (exemple)
+
+- Framework-ul de testare utilizat este `unittest` [1].
+- Principiile generale de proiectare a testelor urmeaza tehnicile clasice prezentate in literatura [3], [4].
+- Diagramele au fost realizate cu tool dedicat [5].
