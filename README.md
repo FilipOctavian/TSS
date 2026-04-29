@@ -28,6 +28,17 @@ Clasa `LoanEvaluator` contine trei functionalitati:
 - decide `approved`, `manual_review` sau `rejected`
 - foloseste conditii combinate pe scor, venit, grad de indatorare si codebitor
 
+### 2.1 Diagrame flowchart
+
+#### validate_loan_amount
+![validate_loan_amount](diagrams/flowchart_validate_loan_amount.svg)
+
+#### calculate_interest_rate
+![calculate_interest_rate](diagrams/flowchart_calculate_interest_rate.svg)
+
+#### evaluate_application
+![evaluate_application](diagrams/flowchart_evaluate_application.svg)
+
 ## 3. Strategii de testare aplicate
 
 ### 3.1 Partitionare in clase de echivalenta
