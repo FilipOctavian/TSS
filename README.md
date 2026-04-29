@@ -185,16 +185,3 @@ Imbunatatiri posibile:
 2. integrare tool dedicat de mutation testing (de ex. `mutmut`) daca mediul permite instalarea
 3. automatizare in CI (GitHub Actions)
 
-## 11. Referinte bibliografice
-
-[1] Python Software Foundation, "unittest - Unit testing framework", Python 3 documentation.  
-[2] Python Software Foundation, "Python 3.13 Documentation", docs.python.org.  
-[3] A. J. Offutt, "Introduction to Software Testing", Cambridge University Press.  
-[4] ISTQB, "Foundation Level Syllabus - Test Design Techniques".  
-[5] diagrams.net, "diagrams.net", https://app.diagrams.net/
-
-## 12. Citare in text (exemple)
-
-- Framework-ul de testare utilizat este `unittest` [1].
-- Principiile generale de proiectare a testelor urmeaza tehnicile clasice prezentate in literatura [3], [4].
-- Diagramele au fost realizate cu tool dedicat [5].
