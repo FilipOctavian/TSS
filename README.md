@@ -152,7 +152,7 @@ Pentru analiza de mutation testing, mutmut este solutia preferata fata de un gen
 
 Generatorul local `mutation_runner.py` ramane util doar ca instrument didactic si comparativ, dar nu inlocuieste un tool specializat precum mutmut.
 
-Pentru rularea mutmut se recomanda un mediu virtual local; in acest proiect executia a fost facuta in mediul gazda al workspace-ului, fara masina virtuala separata.
+Pentru rularea mutmut se recomanda utilizarea unui mediu virtual local. Executia a fost realizata in mediul gazda al workspace-ului, fara masina virtuala separata.
 
 ## 6. Mediu de rulare
 
@@ -200,22 +200,18 @@ Rezultatele confirma faptul ca abordarea sistematica, bazata pe tehnici clasice 
 
 ## Demo video
 
-Videoclipul demo: https://youtu.be/19t6CGx_Fvw
+Videoclip demonstrativ: https://youtu.be/19t6CGx_Fvw
 
-Puteți păstra și o cale locală, dacă este necesar. Exemplu:
-
-- Fișier local (pentru prezentare): `video/demo.mp4` (adaugă fișierul în repo sau păstrează-l local)
-
-După încărcare, poți actualiza acest fișier sau slide-urile PPTX regenerând livrabilele cu `python regenerate_deliverables.py`.
+La actualizarea materialului video, livrabilele se regenereaza cu `python regenerate_deliverables.py`.
 
 ## Mutmut și script WSL
 
-Pentru o rulare reproductibilă a `mutmut` pe Windows se recomandă WSL. Un script helper este disponibil în `scripts/run_mutation_wsl.sh`.
-Rezultatele mutaționale (placeholder) se află în `mutmut_results_PLACEHOLDER.md` și pot fi înlocuite după rulare.
+Rularea reproductibilă a `mutmut` pe Windows se realizează în WSL. Scriptul auxiliar este disponibil la [scripts/run_mutation_wsl.sh](scripts/run_mutation_wsl.sh).
+Rezultatele mutaționale sunt consemnate în [mutmut_results_PLACEHOLDER.md](mutmut_results_PLACEHOLDER.md).
 
 ## Graf cauza-efect
 
-Graf cauza-efect formalizat pentru analiza `evaluate_application` este disponibil la `diagrams/cause_effect_graph.svg`.
+Graful cauza-efect formalizat pentru analiza `evaluate_application` este disponibil la [diagrams/cause_effect_graph.svg](diagrams/cause_effect_graph.svg).
 
 ## Checklist final
 
