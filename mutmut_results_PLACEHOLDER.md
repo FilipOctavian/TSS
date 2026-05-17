@@ -1,11 +1,11 @@
-# Mutmut results (PLACEHOLDER)
+# Mutmut results summary
 
-This file will be populated after running `mutmut` in WSL. Steps to generate:
+Results obtained from the WSL run:
 
-```bash
-cd /mnt/c/Users/\"Gabriela Matei\"/Desktop/tss
-./scripts/run_mutation_wsl.sh
-mutmut results > mutmut_results.txt
-```
+- total mutants: 95
+- killed: 80
+- survived: 15
+- timeouts: 0
 
-Replace the content of this file with a summary: total mutants, killed, survived, and examples of surviving mutants and suggested tests.
+Recommended next step: inspect the 15 surviving mutants with `mutmut results` and decide whether each survivor needs a new test or is equivalent.
+

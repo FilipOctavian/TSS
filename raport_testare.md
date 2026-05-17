@@ -82,7 +82,22 @@ mutmut results > mutmut_results.txt
 
 ## 9. Rezultate mutaționale (placeholder)
 
-În urma rulării mutmut, introduce aici un tabel sumar cu: total mutanți, `KILLED`, `SURVIVED`, și exemple de mutanți supraviețuitori împreună cu testele propuse.
+În urma rulării mutmut în WSL, rezultatele observate sunt:
+
+- total mutanți: 95
+- mutanți omorâți: 80
+- mutanți supraviețuitori: 15
+- timeout-uri: 0
+
+Acest lucru indică faptul că suita curentă acoperă bine logica principală, dar mai există 15 mutanți care merită analizați individual pentru a decide dacă necesită teste suplimentare sau dacă sunt echivalenți.
+
+Comanda corectă pentru inspectarea rezultatului este:
+
+```bash
+mutmut results
+```
+
+Nu este necesară comanda `mutmut show-results`; în versiunea folosită, aceasta nu există.
 
 ## 10. Graf cauza-efect și mapping teste
 
