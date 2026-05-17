@@ -114,7 +114,9 @@ Graful de control al functiei `evaluate_application` poate fi parcurs prin urmat
 
 ⑥ ramura pentru venit mediu si codebitor
 
-⑦ respingerea implicita
+⑦ ramura de control pentru pragul `credit_score >= 700 or has_cosigner`
+
+⑧ ramura pentru venit mediu cu codebitor si respingerea implicita in lipsa conditiilor favorabile
 
 Aceste trasee sunt reflectate in diagrama `diagrams/flowchart_evaluate_application.svg`.
 
