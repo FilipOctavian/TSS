@@ -1,8 +1,8 @@
-# Cum rulezi testele
+# Instructiuni de rulare a testelor
 
-Ruleaza comenzile din radacina proiectului, adica din `C:\Users\Gabriela Matei\Desktop\tss` pe Windows sau din `/mnt/c/Users/Gabriela Matei/Desktop/tss` in WSL.
+Comenzile se ruleaza din radacina proiectului, adica din `C:\Users\Gabriela Matei\Desktop\tss` pe Windows sau din `/mnt/c/Users/Gabriela Matei/Desktop/tss` in WSL.
 
-Important: nu folosi acelasi folder `.venv` creat in WSL din PowerShell pe Windows. Daca ai creat mediul in WSL, recreeaza-l separat in Windows sau ruleaza testele doar din WSL.
+Atentie: un mediu virtual creat in WSL nu se utilizeaza din PowerShell pe Windows. In acest caz, mediul se recreeaza in Windows sau se ruleaza testele exclusiv din WSL.
 
 ## 1. Testele unitare principale
 
@@ -10,7 +10,7 @@ Important: nu folosi acelasi folder `.venv` creat in WSL din PowerShell pe Windo
 python -m unittest discover -s tests -v
 ```
 
-Acesta este pasul de baza si trebuie sa treaca inainte de orice altceva.
+Acesta reprezinta pasul de baza si trebuie sa treaca inainte de celelalte verificari.
 
 ## 2. Runner-ul didactic de mutatii
 
@@ -18,11 +18,11 @@ Acesta este pasul de baza si trebuie sa treaca inainte de orice altceva.
 python mutation_runner.py
 ```
 
-Acesta arata mutanti de tip `KILLED` si `SURVIVED` si ajuta la raport.
+Acesta afiseaza mutanti de tip `KILLED` si `SURVIVED` si sprijina redactarea raportului.
 
 ## 3. Mutmut in WSL
 
-In WSL:
+In WSL, executarea se realizeaza astfel:
 
 ```bash
 cd "/mnt/c/Users/Gabriela Matei/Desktop/tss"
@@ -32,7 +32,7 @@ python -m unittest discover -s tests -v
 mutmut results
 ```
 
-Daca vrei raport text:
+Pentru generarea unui raport text:
 
 ```bash
 mutmut results > mutmut_results.txt
@@ -40,19 +40,19 @@ mutmut results > mutmut_results.txt
 
 ## 4. Ordinea recomandata
 
-1. Rulezi testele unitare.
-2. Rulezi `mutation_runner.py`.
-3. Rulezi `mutmut` in WSL.
-4. Completezi raportul cu rezultatele obtinute.
+1. Se ruleaza testele unitare.
+2. Se ruleaza `mutation_runner.py`.
+3. Se ruleaza `mutmut` in WSL.
+4. Se completeaza raportul cu rezultatele obtinute.
 
 ## 5. Ce trebuie verificat
 
 - toate testele din `tests/` trec
 - mutmut raporteaza rezultatele asteptate
-- poti arata in video ca ai rulat testele si mutation testing-ul
+- in videoclip se vede rularea testelor si a mutation testing-ului
 
 ## 6. Video demo
 
-Videoclip demo: https://youtu.be/19t6CGx_Fvw
+Videoclip demonstrativ: https://youtu.be/19t6CGx_Fvw
 
 

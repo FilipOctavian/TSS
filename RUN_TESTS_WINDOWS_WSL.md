@@ -1,8 +1,8 @@
-# Rulare teste: Windows si WSL
+# Instructiuni de rulare: Windows si WSL
 
 ## Windows PowerShell
 
-Daca vrei sa rulezi testele in Windows, recreeaza mediul virtual in Windows, nu folosi un `.venv` creat in WSL.
+Daca testele se ruleaza in Windows, mediul virtual se recreeaza in Windows; nu se foloseste un `.venv` creat in WSL.
 
 ```powershell
 deactivate
@@ -17,7 +17,7 @@ python mutation_runner.py
 
 ## WSL
 
-Daca vrei sa rulezi in WSL, foloseste mediul virtual creat in WSL.
+Daca testele se ruleaza in WSL, se foloseste mediul virtual creat in WSL.
 
 ```bash
 cd "/mnt/c/Users/Gabriela Matei/Desktop/tss"
@@ -31,4 +31,4 @@ mutmut results
 
 ## Observatie importanta
 
-Un mediu virtual creat in WSL nu poate fi folosit direct in PowerShell pe Windows. Daca vezi eroarea cu `/usr/bin/python.exe`, inseamna ca rulezi un venv Linux din Windows si trebuie recreat in mediul corect.
+Un mediu virtual creat in WSL nu poate fi utilizat direct in PowerShell pe Windows. Daca apare eroarea cu `/usr/bin/python.exe`, inseamna ca este rulat un venv Linux din Windows si mediul trebuie recreat in platforma corespunzatoare.
