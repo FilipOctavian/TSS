@@ -1,0 +1,15 @@
+    main.xǁLoanEvaluatorǁvalidate_loan_amount__mutmut_4: survived
+    main.xǁLoanEvaluatorǁvalidate_loan_amount__mutmut_5: survived
+    main.xǁLoanEvaluatorǁvalidate_loan_amount__mutmut_6: survived
+    main.xǁLoanEvaluatorǁvalidate_loan_amount__mutmut_7: survived
+    main.xǁLoanEvaluatorǁcalculate_interest_rate__mutmut_5: survived
+    main.xǁLoanEvaluatorǁcalculate_interest_rate__mutmut_6: survived
+    main.xǁLoanEvaluatorǁcalculate_interest_rate__mutmut_7: survived
+    main.xǁLoanEvaluatorǁcalculate_interest_rate__mutmut_8: survived
+    main.xǁLoanEvaluatorǁcalculate_interest_rate__mutmut_33: survived
+    main.xǁLoanEvaluatorǁevaluate_application__mutmut_1: survived
+    main.xǁLoanEvaluatorǁevaluate_application__mutmut_9: survived
+    main.xǁLoanEvaluatorǁevaluate_application__mutmut_10: survived
+    main.xǁLoanEvaluatorǁevaluate_application__mutmut_11: survived
+    main.xǁLoanEvaluatorǁevaluate_application__mutmut_12: survived
+    main.xǁLoanEvaluatorǁevaluate_application__mutmut_16: survived
