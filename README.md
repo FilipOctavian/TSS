@@ -31,7 +31,7 @@ Clasa `LoanEvaluator` ofera trei functii principale:
 
 ### 2.1 Diagrame de control
 
-Pentru prezentarea ceruta la curs, au fost incluse diagrame de tip flowchart:
+Au fost incluse diagrame de tip flowchart pentru principalele functii ale clasei:
 
 #### validate_loan_amount
 ![validate_loan_amount](diagrams/flowchart_validate_loan_amount.svg)
@@ -42,7 +42,7 @@ Pentru prezentarea ceruta la curs, au fost incluse diagrame de tip flowchart:
 #### evaluate_application
 ![evaluate_application](diagrams/flowchart_evaluate_application.svg)
 
-Diagrama pentru `evaluate_application` este folosita in mod special pentru cursul 2, deoarece evidentiaza deciziile si traseele independente ale functiei.
+Diagrama pentru `evaluate_application` evidentiaza deciziile si traseele independente ale functiei.
 
 ## 3. Tehnici de testare aplicate
 
@@ -98,7 +98,7 @@ Sunt verificate combinatii relevante pentru expresiile booleene din `evaluate_ap
 - `debt_ratio <= 0.4`
 - `debt_ratio <= 0.5`
 
-### 3.6 Circuit independent pentru cursul 2
+### 3.6 Circuit independent
 
 Graful de control al functiei `evaluate_application` poate fi parcurs prin urmatoarele noduri numerotate:
 
@@ -200,9 +200,10 @@ Rezultatele confirma faptul ca abordarea sistematica, bazata pe tehnici clasice 
 
 ## Demo video
 
-Include aici un link sau o cale către demo-ul video. Exemplu:
+Videoclipul demo: https://youtu.be/19t6CGx_Fvw
 
-- YouTube link: https://youtu.be/REPLACE_WITH_ID
+Puteți păstra și o cale locală, dacă este necesar. Exemplu:
+
 - Fișier local (pentru prezentare): `video/demo.mp4` (adaugă fișierul în repo sau păstrează-l local)
 
 După încărcare, poți actualiza acest fișier sau slide-urile PPTX regenerând livrabilele cu `python regenerate_deliverables.py`.
@@ -220,7 +221,7 @@ Graf cauza-efect formalizat pentru analiza `evaluate_application` este disponibi
 
 - [x] README în limbaj formal
 - [x] Clase de echivalență și frontiere documentate
-- [x] Grafuri pentru cursul 1 și cursul 2
+- [x] Grafuri și diagrame incluse
 - [x] Justificare mutmut și rulare în WSL
 - [x] Teste Claude și mutmut incluse
 - [x] Rezultate mutaționale consemnate

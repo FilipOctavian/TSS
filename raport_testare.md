@@ -34,7 +34,7 @@ Fișierul [tests/test_loan_evaluator_additional.py](tests/test_loan_evaluator_ad
 
 ### 3.3 Setul de teste generate de Claude
 
-Fișierul [tests/test_loan_evaluator_ai_generated.py](tests/test_loan_evaluator_ai_generated.py) contine o suita generata automat de Claude. Aceasta este utila ca punct de comparatie, dar nu acopera sistematic tehnicile cerute la curs.
+Fișierul [tests/test_loan_evaluator_ai_generated.py](tests/test_loan_evaluator_ai_generated.py) contine o suita generata automat de Claude. Aceasta este utila ca punct de comparatie, dar nu acopera sistematic tehnicile de proiectare a testelor documentate aici.
 
 ### 3.4 Setul de teste derivat din mutmut
 
@@ -116,13 +116,13 @@ Mappingul către teste este următorul:
 - C7 → teste de validare negativă: `test_application_negative_values_raises`, `test_negative_credit_score_alone_raises_value_error`, `test_monthly_income_zero_does_not_raise_and_returns_rejected`, `test_existing_debt_zero_does_not_raise`.
 - C8 → teste pentru `calculate_interest_rate`: `test_statement_coverage_for_interest_rate`, `test_decision_coverage_reaches_long_term_branch`, `test_amount_exactly_20000_gets_large_loan_discount`, `test_min_months_boundary_6_is_valid`, `test_max_months_boundary_60_is_valid`, `test_months_61_raises_value_error`.
 
-Acest mapping este suficient pentru cerința de curs și poate fi extins dacă profesorul cere un tabel complet cauza-efect condiție-efect.
+Acest mapping este suficient pentru cerintele proiectului si poate fi extins daca este necesar un tabel complet cauza-efect conditie-efect.
 
 ## 11. Checklist final
 
 - [x] README în limbaj formal și reproductibil
 - [x] Clase de echivalență notate formal și frontiere documentate
-- [x] Diagrame pentru cursul 1 și diagrama numerotată pentru cursul 2
+- [x] Diagrame și diagramă numerotată incluse
 - [x] Grafic cauza-efect formalizat și mapat la teste
 - [x] Justificare pentru mutmut și rulare în WSL documentată
 - [x] Teste Claude și teste mutmut incluse în repo
