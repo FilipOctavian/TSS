@@ -214,5 +214,15 @@ Rezultatele mutaționale (placeholder) se află în `mutmut_results_PLACEHOLDER.
 
 ## Graf cauza-efect
 
-Graf cauza-efect generat pentru analiza `evaluate_application` este disponibil la `diagrams/cause_effect_graph.svg`.
+Graf cauza-efect formalizat pentru analiza `evaluate_application` este disponibil la `diagrams/cause_effect_graph.svg`.
+
+## Checklist final
+
+- [x] README în limbaj formal
+- [x] Clase de echivalență și frontiere documentate
+- [x] Grafuri pentru cursul 1 și cursul 2
+- [x] Justificare mutmut și rulare în WSL
+- [x] Teste Claude și mutmut incluse
+- [x] Rezultate mutaționale consemnate
+
 

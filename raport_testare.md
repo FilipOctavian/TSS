@@ -101,14 +101,30 @@ Nu este necesară comanda `mutmut show-results`; în versiunea folosită, aceast
 
 ## 10. Graf cauza-efect și mapping teste
 
-Vezi graful cauza-efect generat din analiza funcției `evaluate_application`: [diagrams/cause_effect_graph.svg](diagrams/cause_effect_graph.svg#L1).
+Vezi graful cauza-efect formalizat pentru funcția `evaluate_application`: [diagrams/cause_effect_graph.svg](diagrams/cause_effect_graph.svg#L1).
 
-Exemplu de mapping (rezumat):
+Structura formală folosită în diagramă este:
 
-- C1 (credit_score thresholds) → teste: `test_condition_boundary_credit_score_550_is_not_auto_rejected`, `test_credit_score_exactly_700_is_approved`.
-- C2 (monthly_income bands) → teste: `test_income_exactly_3000_with_cosigner_is_manual_review`, `test_income_exactly_5000_enters_high_income_branch`.
-- C3 (existing_debt) → teste care verifică debt ratio: `test_debt_ratio_above_0_4_is_rejected`, `test_debt_ratio_exactly_0_4_enters_high_income_branch`.
-- C5 (amount/months boundaries) → teste: `test_boundary_values_for_minimum_amount`, `test_boundary_values_for_maximum_amount`, `test_months_61_raises_value_error`.
+- cauze de intrare pentru pragurile de scor, venit și indatorare
+- reguli logice pentru decizia finală
+- efecte pentru `approved`, `manual_review`, `rejected` și `ValueError`
 
-Acest mapping poate fi extins într-un tabel detaliat după rularea mutmut și analiza mutanților supraviețuitori.
+Mappingul către teste este următorul:
+
+- C1 / C2 / C3 → teste de prag și decizie: `test_condition_boundary_credit_score_550_is_not_auto_rejected`, `test_credit_score_exactly_700_is_approved`, `test_application_approved`, `test_application_rejected_low_score`, `test_application_manual_review`, `test_application_with_cosigner`.
+- C4 / C5 / C6 → teste de venit și debt ratio: `test_income_exactly_3000_with_cosigner_is_manual_review`, `test_income_exactly_5000_enters_high_income_branch`, `test_debt_ratio_exactly_0_4_enters_high_income_branch`, `test_debt_ratio_above_0_4_is_rejected`, `test_debt_ratio_exactly_0_5_with_cosigner_is_manual_review`.
+- C7 → teste de validare negativă: `test_application_negative_values_raises`, `test_negative_credit_score_alone_raises_value_error`, `test_monthly_income_zero_does_not_raise_and_returns_rejected`, `test_existing_debt_zero_does_not_raise`.
+- C8 → teste pentru `calculate_interest_rate`: `test_statement_coverage_for_interest_rate`, `test_decision_coverage_reaches_long_term_branch`, `test_amount_exactly_20000_gets_large_loan_discount`, `test_min_months_boundary_6_is_valid`, `test_max_months_boundary_60_is_valid`, `test_months_61_raises_value_error`.
+
+Acest mapping este suficient pentru cerința de curs și poate fi extins dacă profesorul cere un tabel complet cauza-efect condiție-efect.
+
+## 11. Checklist final
+
+- [x] README în limbaj formal și reproductibil
+- [x] Clase de echivalență notate formal și frontiere documentate
+- [x] Diagrame pentru cursul 1 și diagrama numerotată pentru cursul 2
+- [x] Grafic cauza-efect formalizat și mapat la teste
+- [x] Justificare pentru mutmut și rulare în WSL documentată
+- [x] Teste Claude și teste mutmut incluse în repo
+- [x] Rezultate mutaționale consemnate în raport
 
