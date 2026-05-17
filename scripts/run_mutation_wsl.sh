@@ -8,6 +8,6 @@ source .venv/bin/activate
 python -m pip install --upgrade pip
 pip install -r requirements.txt
 
-echo "Running mutmut (limited to main.py) - this may take a while"
-mutmut run --paths main.py
+echo "Running mutmut (this may take a while)"
+mutmut run
 echo "Done. Use 'mutmut results' and 'mutmut show-results' to inspect details"
