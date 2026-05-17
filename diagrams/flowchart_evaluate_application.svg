@@ -13,13 +13,13 @@
 <g id="node1" class="node">
 <title>start</title>
 <ellipse fill="#d5e8d4" stroke="#82b366" stroke-width="2" cx="140" cy="-781.38" rx="41.02" ry="18.27"/>
-<text text-anchor="middle" x="140" y="-778.58" font-family="Arial" font-size="11.00">START</text>
+<text text-anchor="middle" x="140" y="-778.58" font-family="Arial" font-size="11.00">① START</text>
 </g>
 <!-- input -->
 <g id="node2" class="node">
 <title>input</title>
 <path fill="#dae8fc" stroke="#6c8ebf" stroke-width="2" d="M212,-726C212,-726 68,-726 68,-726 62,-726 56,-720 56,-714 56,-714 56,-688 56,-688 56,-682 62,-676 68,-676 68,-676 212,-676 212,-676 218,-676 224,-682 224,-688 224,-688 224,-714 224,-714 224,-720 218,-726 212,-726"/>
-<text text-anchor="middle" x="140" y="-710.2" font-family="Arial" font-size="11.00">Intrare:</text>
+<text text-anchor="middle" x="140" y="-710.2" font-family="Arial" font-size="11.00">② Intrare:</text>
 <text text-anchor="middle" x="140" y="-698.2" font-family="Arial" font-size="11.00">credit_score, monthly_income,</text>
 <text text-anchor="middle" x="140" y="-686.2" font-family="Arial" font-size="11.00">existing_debt, has_cosigner</text>
 </g>
@@ -33,7 +33,7 @@
 <g id="node3" class="node">
 <title>chk_neg</title>
 <polygon fill="#fff2cc" stroke="#d6b656" stroke-width="2" points="140,-639 0,-589 140,-539 280,-589 140,-639"/>
-<text text-anchor="middle" x="140" y="-598.2" font-family="Arial" font-size="11.00">credit_score &lt; 0 sau</text>
+<text text-anchor="middle" x="140" y="-598.2" font-family="Arial" font-size="11.00">③ credit_score &lt; 0 sau</text>
 <text text-anchor="middle" x="140" y="-586.2" font-family="Arial" font-size="11.00">monthly_income &lt; 0 sau</text>
 <text text-anchor="middle" x="140" y="-574.2" font-family="Arial" font-size="11.00">existing_debt &lt; 0?</text>
 </g>
@@ -61,7 +61,7 @@
 <g id="node5" class="node">
 <title>calc_dr</title>
 <path fill="#dae8fc" stroke="#6c8ebf" stroke-width="2" d="M348.5,-492C348.5,-492 199.5,-492 199.5,-492 193.5,-492 187.5,-486 187.5,-480 187.5,-480 187.5,-454 187.5,-454 187.5,-448 193.5,-442 199.5,-442 199.5,-442 348.5,-442 348.5,-442 354.5,-442 360.5,-448 360.5,-454 360.5,-454 360.5,-480 360.5,-480 360.5,-486 354.5,-492 348.5,-492"/>
-<text text-anchor="middle" x="274" y="-476.2" font-family="Arial" font-size="11.00">debt_ratio =</text>
+<text text-anchor="middle" x="274" y="-476.2" font-family="Arial" font-size="11.00">④ debt_ratio =</text>
 <text text-anchor="middle" x="274" y="-464.2" font-family="Arial" font-size="11.00">existing_debt / monthly_income</text>
 <text text-anchor="middle" x="274" y="-452.2" font-family="Arial" font-size="11.00">(inf daca monthly_income = 0)</text>
 </g>
@@ -76,7 +76,7 @@
 <g id="node6" class="node">
 <title>chk_cs</title>
 <polygon fill="#fff2cc" stroke="#d6b656" stroke-width="2" points="274,-405 156,-379 274,-353 392,-379 274,-405"/>
-<text text-anchor="middle" x="274" y="-376.2" font-family="Arial" font-size="11.00">credit_score &lt; 550?</text>
+<text text-anchor="middle" x="274" y="-376.2" font-family="Arial" font-size="11.00">⑤ credit_score &lt; 550?</text>
 </g>
 <!-- calc_dr&#45;&gt;chk_cs -->
 <g id="edge5" class="edge">
@@ -101,7 +101,7 @@
 <g id="node8" class="node">
 <title>chk_hi</title>
 <polygon fill="#fff2cc" stroke="#d6b656" stroke-width="2" points="465,-306 321,-268 465,-230 609,-268 465,-306"/>
-<text text-anchor="middle" x="465" y="-271.2" font-family="Arial" font-size="11.00">monthly_income &gt;= 5000</text>
+<text text-anchor="middle" x="465" y="-271.2" font-family="Arial" font-size="11.00">⑥ monthly_income &gt;= 5000</text>
 <text text-anchor="middle" x="465" y="-259.2" font-family="Arial" font-size="11.00">si debt_ratio &lt;= 0.4?</text>
 </g>
 <!-- chk_cs&#45;&gt;chk_hi -->
@@ -115,7 +115,7 @@
 <g id="node9" class="node">
 <title>chk_sc</title>
 <polygon fill="#fff2cc" stroke="#d6b656" stroke-width="2" points="295,-171 176,-133 295,-95 414,-133 295,-171"/>
-<text text-anchor="middle" x="295" y="-136.2" font-family="Arial" font-size="11.00">credit_score &gt;= 700</text>
+<text text-anchor="middle" x="295" y="-136.2" font-family="Arial" font-size="11.00">⑦ credit_score &gt;= 700</text>
 <text text-anchor="middle" x="295" y="-124.2" font-family="Arial" font-size="11.00">sau has_cosigner?</text>
 </g>
 <!-- chk_hi&#45;&gt;chk_sc -->
@@ -129,7 +129,7 @@
 <g id="node12" class="node">
 <title>chk_mi</title>
 <polygon fill="#fff2cc" stroke="#d6b656" stroke-width="2" points="576,-183 432,-133 576,-83 720,-133 576,-183"/>
-<text text-anchor="middle" x="576" y="-142.2" font-family="Arial" font-size="11.00">monthly_income &gt;= 3000</text>
+<text text-anchor="middle" x="576" y="-142.2" font-family="Arial" font-size="11.00">⑧ monthly_income &gt;= 3000</text>
 <text text-anchor="middle" x="576" y="-130.2" font-family="Arial" font-size="11.00">si debt_ratio &lt;= 0.5</text>
 <text text-anchor="middle" x="576" y="-118.2" font-family="Arial" font-size="11.00">si has_cosigner?</text>
 </g>

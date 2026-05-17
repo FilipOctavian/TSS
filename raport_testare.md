@@ -1,200 +1,67 @@
-# Documentatie proiect TSS - testare unitara in Python
+# Raport de testare
 
-## 1. Introducere
+## 1. Obiectiv
 
-Acest proiect demonstreaza testarea unitara pentru clasa `LoanEvaluator`, implementata in `main.py`, folosind framework-ul `unittest` din Python [1].  
-Obiectivul este aplicarea strategiilor de proiectare a testelor cerute la curs:
+Scopul acestui raport este de a descrie metodologia de testare aplicata pentru clasa `LoanEvaluator`, implementata in `main.py`, si de a justifica alegerea unui tool specializat de mutation testing in raport cu un generator didactic de mutanti.
 
-- partitionare in clase de echivalenta
+## 2. Tehnici utilizate
+
+Au fost aplicate urmatoarele tehnici de proiectare a testelor:
+
+- partitiarea in clase de echivalenta
 - analiza valorilor de frontiera
-- acoperire la nivel de instructiune, decizie si conditie
-- circuite independente (basis path)
-- analiza rezultatelor unui generator de mutanti
-- adaugarea de teste pentru omorarea a 2 mutanti neechivalenti ramasi in viata
+- acoperire la nivel de instructiune
+- acoperire la nivel de decizie
+- acoperire la nivel de conditie
+- basis path pentru functia `evaluate_application`
 
-## 2. Descrierea aplicatiei testate
+Clasele si frontierele relevante sunt documentate in [README.md](README.md), iar testele corespunzatoare sunt in folderul [tests](tests).
 
-Clasa `LoanEvaluator` contine trei functionalitati:
+## 3. Rezultate observabile
 
-1. `validate_loan_amount(amount)`:
-- valideaza intervalul `[1000, 50000]`
-- clasifica suma in `small`, `medium`, `large`
+### 3.1 Setul de teste de baza
 
-2. `calculate_interest_rate(amount, months, has_salary_account)`:
-- foloseste reguli pentru suma, perioada si cont de salariu
-- returneaza dobanda finala rotunjita
+Fișierul [tests/test_loan_evaluator_core.py](tests/test_loan_evaluator_core.py) acopera:
 
-3. `evaluate_application(credit_score, monthly_income, existing_debt, has_cosigner)`:
-- decide `approved`, `manual_review` sau `rejected`
-- foloseste conditii combinate pe scor, venit, grad de indatorare si codebitor
+- clasele de echivalenta pentru suma imprumutului
+- frontierele minime si maxime ale intervalului valid
+- ramurile principale pentru calculul dobanzii
+- trasee independente pentru decizia de aprobare/respingere
 
-## 3. Strategii de testare aplicate
+### 3.2 Setul de teste suplimentare
 
-### 3.1 Partitionare in clase de echivalenta
+Fișierul [tests/test_loan_evaluator_additional.py](tests/test_loan_evaluator_additional.py) completeaza frontiera interna de la `5000` si cazul de respingere pe venit mediu fara codebitor.
 
-Exemple de clase pentru `validate_loan_amount`:
+### 3.3 Setul de teste generate de Claude
 
-- invalida sub minim: `500`
-- valida mica: `3000`
-- valida medie: `12000`
-- valida mare: `35000`
-- invalida peste maxim: `70000`
+Fișierul [tests/test_loan_evaluator_ai_generated.py](tests/test_loan_evaluator_ai_generated.py) contine o suita generata automat de Claude. Aceasta este utila ca punct de comparatie, dar nu acopera sistematic tehnicile cerute la curs.
 
-Implementare: `tests/test_loan_evaluator_core.py`.
+### 3.4 Setul de teste derivat din mutmut
 
-### 3.2 Analiza valorilor de frontiera
+Fișierul [tests/test_loan_evaluator_mutmut.py](tests/test_loan_evaluator_mutmut.py) contine testele adaugate dupa analiza mutantilor supravietuitori.
 
-Frontiere testate:
+## 4. Justificarea utilizarii mutmut
 
-- minim: `999`, `1000`, `1001`
-- maxim: `49999`, `50000`, `50001`
-- frontiera interna de clasificare: `5000` (test suplimentar)
+Mutmut este preferat in raport cu un generator manual de mutanti deoarece:
 
-Implementare:
+- genereaza mutanti direct din codul real, fara mentenanta manuala pentru fiecare varianta
+- scaleaza mai bine la un numar mare de mutanti si la proiecte mai mari
+- produce un flux reproductibil, util pentru raportare academica si verificare repetabila
+- evidentiaza direct unde suita de teste este slaba, prin mutanti supravietuitori
 
-- `tests/test_loan_evaluator_core.py`
-- `tests/test_loan_evaluator_additional.py`
+In acest proiect, `mutation_runner.py` are rol didactic si de demonstrare. El este util pentru prezentarea diferentelor dintre `KILLED` si `SURVIVED`, dar nu inlocuieste un instrument complet de mutation testing.
 
-### 3.3 Acoperire la nivel de instructiune
+## 5. Mediu de executie
 
-Testul `test_statement_coverage_for_interest_rate` executa instructiunile principale ale calculului de dobanda, inclusiv reduceri cumulative.
+Rularea s-a facut local, in mediul gazda al workspace-ului, fara masina virtuala separata. Pentru instalarea si executia mutmut, un mediu virtual local ramane totusi recomandat, deoarece izoleaza dependintele si stabileste un context reproductibil.
 
-### 3.4 Acoperire la nivel de decizie
+## 6. Concluzii
 
-Ramurile decizionale pentru perioada sunt traversate prin:
+Rezultatul principal este ca suita manual proiectata, completata cu testele suplimentare si cu testele derivare din mutmut, ofera o acoperire semnificativ mai buna decat suita generata automat. Claude produce rapid un schelet util, dar nu inlocuieste proiectarea sistematica a cazurilor de test.
 
-- `months <= 12`
-- `months >= 36`
+## 7. Referinte
 
-### 3.5 Acoperire la nivel de conditie
-
-Sunt exercitate combinatii relevante pentru expresiile booleene:
-
-- `credit_score < 550` (adevarat/fals)
-- `credit_score >= 700 or has_cosigner`
-- `monthly_income >= 5000`
-- `debt_ratio <= 0.4` si `debt_ratio <= 0.5`
-
-### 3.6 Circuite independente (basis path)
-
-Pentru `evaluate_application` au fost alese trasee independente:
-
-1. respingere imediata (`credit_score < 550`)
-2. aprobare (`venit mare`, `debt_ratio <= 0.4`, scor mare)
-3. review manual (`venit mare`, fara codebitor, scor < 700)
-4. review manual (`venit mediu`, cu codebitor)
-5. respingere pe cazuri reziduale
-
-
-## 4. Configuratia de rulare
-
-### 4.1 Configuratia hardware
-
-Date extrase din mediul de lucru curent:
-
-- CPU: `AMD Ryzen 9 7900 12-Core Processor` (12 nuclee / 24 thread-uri)
-- RAM: `31.74 GB`
-- Sistem: `LENOVO 90UY00ADRI`
-
-### 4.2 Configuratia software
-
-- OS: `Microsoft Windows 11 Pro`, versiune `10.0.26200`, arhitectura `64-bit`
-- Python: `3.13.5`
-- pip: `25.1.1`
-- Git: `2.50.1.windows.1`
-- Framework testare: `unittest` (stdlib Python)
-
-### 4.3 Masina virtuala
-
-- nu a fost folosita masina virtuala
-- rularea s-a facut local, in mediul host
-
-## 5. Fragmente de cod relevante
-
-### 5.1 Fragment cod productie (`main.py`)
-
-```python
-if monthly_income >= 5_000 and debt_ratio <= 0.4:
-    if credit_score >= 700 or has_cosigner:
-        return "approved"
-    return "manual_review"
-```
-
-### 5.2 Fragment cod teste suplimentare (`tests/test_loan_evaluator_additional.py`)
-
-```python
-def test_amount_boundary_exactly_5000_is_still_small(self) -> None:
-    self.assertEqual("small", self.evaluator.validate_loan_amount(5_000))
-```
-
-```python
-def test_application_is_rejected_without_cosigner_on_medium_income(self) -> None:
-    result = self.evaluator.evaluate_application(
-        credit_score=620,
-        monthly_income=3_500,
-        existing_debt=1_000,
-        has_cosigner=False,
-    )
-    self.assertEqual("rejected", result)
-```
-
-## 6. Rulare si capturi de ecran
-
-### 6.1 Comenzi folosite
-
-```powershell
-.\myvenv\Scripts\python.exe -m unittest discover -s tests -v
-.\myvenv\Scripts\python.exe mutation_runner.py
-```
-
-### 6.2 Rezultate obtinute
-
-- Teste unitare: `17` teste, toate `OK`
-- Mutatii:
-- `core suite`: `Killed = 1`, `Survived = 2`
-- `core + additional tests`: `Killed = 3`, `Survived = 0`
-
-
-## 7. Comparatie rezultate/tool-uri (tabelar)
-
-| Criteriu | unittest | mutation_runner.py |
-|---|---|---|
-| Scop principal | Validare functionala fata de expected outputs | Evaluare putere teste prin mutanti |
-| Tip rezultat | PASS/FAIL pe teste | KILLED/SURVIVED pe mutanti |
-| Granularitate | per test | per mutant |
-| Valoare in proiect | confirma corectitudinea implementarii | confirma sensibilitatea suitei la defecte |
-| Rezultat in acest proiect | 17/17 teste trecute | de la 1/3 mutanti omorati la 3/3 |
-
-## 8. Interpretare rezultate
-
-1. Suita de baza detecteaza defectele majore, dar nu toate diferentele subtile de frontiera.
-2. Mutantii `M1` si `M2` au supravietuit initial, indicand goluri de testare:
-- frontiera exacta `5000`
-- regula de codebitor pe venit mediu
-3. Doua teste suplimentare au inchis exact aceste goluri.
-4. Dupa extindere, toti mutantii definiti au fost omorati (`100% kill rate` in setul de mutanti modelat).
-
-## 9. Limitari si imbunatatiri
-
-- generatorul de mutanti este unul didactic, nu un tool industrial complet
-- nu este inclusa acoperire instrumentata automat (ex. `coverage.py`)
-
-Imbunatatiri posibile:
-
-1. integrare `coverage.py` pentru metrici line/branch
-2. integrare tool dedicat de mutation testing (de ex. `mutmut`) daca mediul permite instalarea
-3. automatizare in CI (GitHub Actions)
-
-## 11. Referinte bibliografice
-
-[1] Python Software Foundation, "unittest - Unit testing framework", Python 3 documentation.  
-[2] Python Software Foundation, "Python 3.13 Documentation", docs.python.org.  
-[3] A. J. Offutt, "Introduction to Software Testing", Cambridge University Press.  
-[4] ISTQB, "Foundation Level Syllabus - Test Design Techniques".  
-[5] diagrams.net, "diagrams.net", https://app.diagrams.net/
-
-## 12. Citare in text (exemple)
-
-- Framework-ul de testare utilizat este `unittest` [1].
-- Principiile generale de proiectare a testelor urmeaza tehnicile clasice prezentate in literatura [3], [4].
-- Diagramele au fost realizate cu tool dedicat [5].
+[1] Python Software Foundation, "unittest - Unit testing framework", Python 3 documentation.
+[2] A. J. Offutt, "Introduction to Software Testing", Cambridge University Press.
+[3] ISTQB, "Foundation Level Syllabus - Test Design Techniques".
+[4] mutmut - mutation testing tool, https://mutmut.readthedocs.io/
