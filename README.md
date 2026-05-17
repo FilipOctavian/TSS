@@ -197,3 +197,22 @@ Rezultatele confirma faptul ca abordarea sistematica, bazata pe tehnici clasice 
 [3] A. J. Offutt, "Introduction to Software Testing", Cambridge University Press.
 [4] ISTQB, "Foundation Level Syllabus - Test Design Techniques".
 [5] diagrams.net, "diagrams.net", https://app.diagrams.net/
+
+## Demo video
+
+Include aici un link sau o cale către demo-ul video. Exemplu:
+
+- YouTube link: https://youtu.be/REPLACE_WITH_ID
+- Fișier local (pentru prezentare): `video/demo.mp4` (adaugă fișierul în repo sau păstrează-l local)
+
+După încărcare, poți actualiza acest fișier sau slide-urile PPTX regenerând livrabilele cu `python regenerate_deliverables.py`.
+
+## Mutmut și script WSL
+
+Pentru o rulare reproductibilă a `mutmut` pe Windows se recomandă WSL. Un script helper este disponibil în `scripts/run_mutation_wsl.sh`.
+Rezultatele mutaționale (placeholder) se află în `mutmut_results_PLACEHOLDER.md` și pot fi înlocuite după rulare.
+
+## Graf cauza-efect
+
+Graf cauza-efect generat pentru analiza `evaluate_application` este disponibil la `diagrams/cause_effect_graph.svg`.
+

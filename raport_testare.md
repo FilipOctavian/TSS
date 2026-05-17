@@ -65,3 +65,35 @@ Rezultatul principal este ca suita manual proiectata, completata cu testele supl
 [2] A. J. Offutt, "Introduction to Software Testing", Cambridge University Press.
 [3] ISTQB, "Foundation Level Syllabus - Test Design Techniques".
 [4] mutmut - mutation testing tool, https://mutmut.readthedocs.io/
+
+## 8. Instrucțiuni pentru mutation testing (WSL)
+
+Pentru a rula `mutmut` pe mașina ta (recomandat în WSL/Ubuntu):
+
+1. Asigură-te că ai `python3-venv` instalat: `sudo apt install python3-venv`.
+2. În directorul proiectului rulează scriptul helper:
+
+```bash
+./scripts/run_mutation_wsl.sh
+mutmut results > mutmut_results.txt
+```
+
+3. Copiază sumarul în fișierul `mutmut_results_PLACEHOLDER.md` sau înlocuiește-l cu rezultatele reale.
+
+## 9. Rezultate mutaționale (placeholder)
+
+În urma rulării mutmut, introduce aici un tabel sumar cu: total mutanți, `KILLED`, `SURVIVED`, și exemple de mutanți supraviețuitori împreună cu testele propuse.
+
+## 10. Graf cauza-efect și mapping teste
+
+Vezi graful cauza-efect generat din analiza funcției `evaluate_application`: [diagrams/cause_effect_graph.svg](diagrams/cause_effect_graph.svg#L1).
+
+Exemplu de mapping (rezumat):
+
+- C1 (credit_score thresholds) → teste: `test_condition_boundary_credit_score_550_is_not_auto_rejected`, `test_credit_score_exactly_700_is_approved`.
+- C2 (monthly_income bands) → teste: `test_income_exactly_3000_with_cosigner_is_manual_review`, `test_income_exactly_5000_enters_high_income_branch`.
+- C3 (existing_debt) → teste care verifică debt ratio: `test_debt_ratio_above_0_4_is_rejected`, `test_debt_ratio_exactly_0_4_enters_high_income_branch`.
+- C5 (amount/months boundaries) → teste: `test_boundary_values_for_minimum_amount`, `test_boundary_values_for_maximum_amount`, `test_months_61_raises_value_error`.
+
+Acest mapping poate fi extins într-un tabel detaliat după rularea mutmut și analiza mutanților supraviețuitori.
+
